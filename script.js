@@ -115,7 +115,7 @@ function renderTable() {
   const banner = document.getElementById('dateBanner');
   if (dateVal) {
     const pretty = new Date(dateVal + 'T00:00:00').toLocaleDateString('hi-IN', {day:'2-digit',month:'long',year:'numeric'});
-    document.getElementById('dateBannerText').innerHTML = `<strong>${pretty}</strong> के ${filtered.length} ऑर्डर मिले।`;
+    document.getElementById('dateBannerText').innerHTML = `<strong>${pretty}</strong> Order received from ${filtered.length}`;
     banner.classList.add('show');
   } else {
     banner.classList.remove('show');
