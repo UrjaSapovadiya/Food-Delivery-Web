@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍕 FoodRush - Online Food Delivery System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div>
+        <div class="logo">🍕 FoodRush <span>Delivery System</span></div>
+    </div>
+    <div class="header-right">
+        <button class="btn-add" onclick="openAddModal()">+ New Order</button>
+    </div>
+</header>
+
+<div class="stats-bar" id="statsBar">
+    <div class="stat-card">
+        <div class="stat-icon orange">📦</div>
+        <div>
+            <div class="stat-label">Total Orders</div>
+            <div class="stat-value orange" id="statTotal">0</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon green">✅</div>
+        <div>
+            <div class="stat-label">Delivered</div>
+            <div class="stat-value green" id="statDelivered">0</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon red">❌</div>
+        <div>
+            <div class="stat-label">Cancelled</div>
+            <div class="stat-value red" id="statCancelled">0</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon blue">💰</div>
+        <div>
+            <div class="stat-label">Revenue</div>
+            <div class="stat-value blue" id="statRevenue">₹0</div>
+        </div>
+    </div>
+</div>
+
+<div class="main">
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+        <div class="tabs">
+            <button class="tab active" onclick="setTab('all',this)">🗂️ All Orders <span class="count" id="cAll">0</span></button>
+            <button class="tab" onclick="setTab('active',this)">🔥 Active <span class="count" id="cActive">0</span></button>
+            <button class="tab" onclick="setTab('delivered',this)">✅ Delivered <span class="count" id="cDelivered">0</span></button>
+            <button class="tab" onclick="setTab('cancelled',this)">❌ Cancelled <span class="count" id="cCancelled">0</span></button>
+        </div>
+    </div>
+
+    <div class="filter-bar">
+        <div class="search-wrap">
+            <span class="si">🔍</span>
+            <input type="text" id="searchInput" placeholder="Name, Order ID, or Find Food..." oninput="renderTable()">
+        </div>
+        <input type="date" class="date-filter" id="dateFilter" onchange="renderTable()">
+        <button class="btn-clear" onclick="clearFilters()">✕ Clear Filter</button>
+    </div>
+
+    <div class="date-banner" id="dateBanner">
+        📅 <span id="dateBannerText"></span>
+    </div>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Amount</th>
+                    <th>Date & Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+        <div class="empty" id="emptyState" style="display:none;">
+            <div class="eicon">🍽️</div>
+            <p>No order received</p>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="addModal">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title">🛒 Add new order</div>
+            <button class="btn-close" onclick="closeModal('addModal')">✕</button>
+        </div>
+        <div class="form-grid">
+            <div class="form-row">
+                <div class="field">
+                    <label>Customer Name *</label>
+                    <input type="text" id="f_name" placeholder="like: Rahul Sharma">
+                </div>
+                <div class="field">
+                    <label>Phone Number *</label>
+                    <input type="text" id="f_phone" placeholder="+91 9876543210">
+                </div>
+            </div>
+            <div class="field">
+                <label>Delivery Address *</label>
+                <input type="text" id="f_address" placeholder="write your address">
+            </div>
+            <div class="field">
+                <label>Food Items *</label>
+                <textarea id="f_items" placeholder="like: Paneer Pizza, Veg Burger, Cold Drink"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="field">
+                    <label>Total Amount (₹) *</label>
+                    <input type="number" id="f_amount" placeholder="450">
+                </div>
+                <div class="field">
+                    <label>Payment Method</label>
+                    <select id="f_payment">
+                        <option value="Cash on Delivery">Cash on Delivery</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Card">Card</option>
+                        <option value="Net Banking">Net Banking</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="field">
+                    <label>Status</label>
+                    <select id="f_status">
+                        <option value="pending">Pending</option>
+                        <option value="preparing">Preparing</option>
+                        <option value="out_for_delivery">Out for Delivery</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Order Date & Time</label>
+                    <input type="datetime-local" id="f_date">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeModal('addModal')">Cancel</button>
+            <button class="btn-primary" onclick="saveOrder()">Save Order</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="viewModal">
+    <div class="modal">
+        <div class="modal-header">
+            <div class="modal-title">📋 Order Details</div>
+            <button class="btn-close" onclick="closeModal('viewModal')">✕</button>
+        </div>
+        <div id="viewContent"></div>
+    </div>
+</div>
+
+<div id="toast">
+    <span class="toast-icon" id="toastIcon">✅</span>
+    <span id="toastMsg"></span>
+</div>
+<div id="output"></div>
+<script src="script.js"></script>
+</body>
+</html>
