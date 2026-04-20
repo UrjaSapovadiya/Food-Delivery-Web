@@ -166,8 +166,7 @@ function renderTable() {
     </tr>`;
   }).join('');
 }
-
-// ─── TAB ─────────────────────────────────────────────────────
+
 function setTab(tab, el) {
   currentTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -175,14 +174,14 @@ function setTab(tab, el) {
   renderTable();
 }
 
-// ─── CLEAR FILTERS ───────────────────────────────────────────
+
 function clearFilters() {
   document.getElementById('searchInput').value = '';
   document.getElementById('dateFilter').value = '';
   renderTable();
 }
 
-// ─── STATUS UPDATE ───────────────────────────────────────────
+
 function updateStatus(id, status) {
   const o = orders.find(x=>x.id===id);
   if (!o) return;
