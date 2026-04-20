@@ -114,7 +114,7 @@ function renderTable() {
   // Date banner
   const banner = document.getElementById('dateBanner');
   if (dateVal) {
-    const pretty = new Date(dateVal + 'T00:00:00').toLocaleDateString('hi-IN', {day:'2-digit',month:'long',year:'numeric'});
+    const pretty = new Date(dateVal + 'T00:00:00').toLocaleDateString('en-IN', {day:'2-digit',month:'long',year:'numeric'});
     document.getElementById('dateBannerText').innerHTML = `<strong>${pretty}</strong> Order received from ${filtered.length}`;
     banner.classList.add('show');
   } else {
@@ -166,7 +166,8 @@ function renderTable() {
     </tr>`;
   }).join('');
 }
-
+
+
 function setTab(tab, el) {
   currentTab = tab;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
